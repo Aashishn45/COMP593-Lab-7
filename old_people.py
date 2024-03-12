@@ -8,7 +8,7 @@ Usage:
 """
 import os
 from create_db import db_path, script_dir
-from pprint import pprint
+import pandas as pd
 import sqlite3
 
 
@@ -32,7 +32,8 @@ def get_old_people():
 
     cur.execute('SELECT name,age FROM people WHERE age >= 50')
 
-    data = cur.fetchall
+    data = cur.fetchall()
+    
 
     con.commit()
     con.close()
@@ -49,9 +50,11 @@ def print_name_and_age(name_and_age_list):
     # TODO: Create function body
     # Hint: Use a for loop to iterate the list of tuples to print a sentence for each old person
     
-    
-    
-    
+    for person in name_and_age_list:
+        nam = person[0]
+        ag = person[1]
+
+        print(f'{nam} is {ag} years old.')
     
     return
 
@@ -64,6 +67,9 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
     """
     # TODO: Create function body
     # Hint: In Lab 3, we converted a list of tuples into a pandas DataFrame and saved it to a CSV file
+    
+    
+    
     return
 
 if __name__ == '__main__':
