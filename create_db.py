@@ -53,10 +53,45 @@ def populate_people_table():
     # TODO: Create function body
     # Hint: See example code in lab instructions entitled "Inserting Data into a Table"
     # Hint: See example code in lab instructions entitled "Working with Faker"
+  
+    con = sqlite3.connect('social_network.db')
+    cur = con.cursor()
 
+    add_data_query = """
 
+        INSERT INTO people
+        (
+           name,
+           email,
+           address,
+           city,
+           province,
+           bio,
+           age,
+           created_at,
+           updated_at
+        )
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+    """
 
-    
+    fake = Faker("en_CA")
+    for _ in range(200):
+        new_data = (fake.name(),
+                    fake.email(),
+                    fake.street_address(),
+                    fake.city(),
+                    fake.administrative_unit(),
+                    fake.sentence(),
+                    fake.random_int(min=10, max=90),
+                    datetime.now().isoformat(),
+                    datetime.now().isoformat())
+        
+        
+        cur.execute(add_data_query, new_data)
+
+    con.commit()
+    con.close()
+                
     return
 
 if __name__ == '__main__':
